@@ -1,0 +1,19 @@
+<!-- ✅ CSP restricts what can run / load. Best delivered as an HTTP response header;
+     a <meta> tag works for static hosting. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none'">
+
+<!--
+  script-src 'self'   → only same-origin scripts run; INLINE scripts are BLOCKED,
+                        so an injected <script> or onerror handler will NOT execute.
+  default-src 'self'  → images/styles/fetch default to same-origin.
+  object-src 'none'   → no <object>/<embed> (Flash-style) vectors.
+  frame-ancestors 'none' → also blocks clickjacking (can't be iframed).
+
+  This is defense-in-depth: even if XSS sneaks markup in, CSP stops it running.
+  For inline scripts you genuinely need, use a per-request nonce or a hash —
+  never 'unsafe-inline'.
+-->
+
+<!-- As an HTTP header (preferred):
+     Content-Security-Policy: default-src 'self'; script-src 'self' -->

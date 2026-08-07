@@ -1,0 +1,16 @@
+<svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>CSP before and after</title>
+  <desc>Without CSP, inline and any-origin scripts run; with CSP script-src self, inline is blocked and only allowlisted origins load.</desc>
+  <text x="340" y="26" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="13" font-weight="500">Content-Security-Policy (XSS backstop)</text>
+  <rect x="30" y="44" width="300" height="132" rx="10" fill="#E24B4A"/>
+  <text x="180" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">BEFORE — no CSP</text>
+  <text x="180" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">injected inline &lt;script&gt; runs</text>
+  <text x="180" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">scripts load from any origin</text>
+  <text x="180" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">XSS executes freely 🚨</text>
+  <rect x="350" y="44" width="300" height="132" rx="10" fill="#639922"/>
+  <text x="500" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">AFTER — script-src 'self'</text>
+  <text x="500" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">inline scripts blocked</text>
+  <text x="500" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">only allowlisted origins load</text>
+  <text x="500" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">injected script won't run ✓</text>
+  <text x="340" y="200" text-anchor="middle" fill="#999" font-family="system-ui,sans-serif" font-size="12">defense-in-depth: catches what sanitization misses. Use nonces/hashes for needed inline.</text>
+</svg>

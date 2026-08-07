@@ -1,0 +1,33 @@
+/* 1. Put the three pieces (list, controls, list) in a row. */
+.dual-list {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* 2. Each list is a fixed-size box so an empty list still has a drop target. */
+.list-box {
+  width: 200px;
+  height: 300px;
+  border: 1px solid #ccc;
+  overflow-y: auto; /* scroll when items overflow */
+  padding: 4px;
+}
+
+/* 3. Each row is clickable. */
+.list-item {
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+/* 4. Show which items are selected — the one style the demo depends on. */
+.list-item.selected {
+  background: #cce5ff;
+}
+
+/* 5. Stack the middle move buttons vertically. */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

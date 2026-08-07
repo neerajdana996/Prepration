@@ -1,0 +1,16 @@
+<svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Token storage before and after</title>
+  <desc>A token in localStorage is readable by JS and stolen via XSS, while an HttpOnly cookie is unreadable by JS.</desc>
+  <text x="340" y="26" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="13" font-weight="500">Auth token storage</text>
+  <rect x="30" y="44" width="300" height="132" rx="10" fill="#E24B4A"/>
+  <text x="180" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">BEFORE — localStorage</text>
+  <text x="180" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">JWT stored in localStorage</text>
+  <text x="180" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">readable by any JS on the page</text>
+  <text x="180" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">one XSS → token stolen 🚨</text>
+  <rect x="350" y="44" width="300" height="132" rx="10" fill="#639922"/>
+  <text x="500" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">AFTER — HttpOnly cookie</text>
+  <text x="500" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">HttpOnly + Secure + SameSite</text>
+  <text x="500" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">JS cannot read it</text>
+  <text x="500" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">XSS can't exfiltrate it ✓</text>
+  <text x="340" y="200" text-anchor="middle" fill="#999" font-family="system-ui,sans-serif" font-size="12">trade-off: auto-sent cookie → CSRF → handled by SameSite (+ CSRF token)</text>
+</svg>

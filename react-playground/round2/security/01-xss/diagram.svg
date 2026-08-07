@@ -1,0 +1,27 @@
+<svg width="100%" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>XSS before and after</title>
+  <desc>Attacker input runs as a script when rendered as HTML, but is safe when escaped, sanitized, and blocked by CSP.</desc>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="7" orient="auto">
+      <path d="M1,1 L4,7 L7,1" fill="none" stroke="#999" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <rect x="170" y="18" width="340" height="48" rx="8" fill="#BA7517"/>
+  <text x="340" y="40" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">attacker input (a comment)</text>
+  <text x="340" y="57" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="11">&lt;img src=x onerror="steal(document.cookie)"&gt;</text>
+  <line x1="270" y1="66" x2="175" y2="106" stroke="#999" stroke-width="1.3" marker-end="url(#a)"/>
+  <line x1="410" y1="66" x2="505" y2="106" stroke="#999" stroke-width="1.3" marker-end="url(#a)"/>
+  <text x="205" y="92" fill="#999" font-family="system-ui,sans-serif" font-size="11">as raw HTML</text>
+  <text x="460" y="92" fill="#999" font-family="system-ui,sans-serif" font-size="11">as text</text>
+  <rect x="30" y="110" width="300" height="98" rx="8" fill="#E24B4A"/>
+  <text x="180" y="134" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">BEFORE — dangerouslySetInnerHTML</text>
+  <text x="180" y="158" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">browser parses it as real HTML</text>
+  <text x="180" y="178" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">onerror runs in your session</text>
+  <text x="180" y="197" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">cookie / token stolen</text>
+  <rect x="350" y="110" width="300" height="98" rx="8" fill="#639922"/>
+  <text x="500" y="134" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">AFTER — escape / sanitize / CSP</text>
+  <text x="500" y="158" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">React shows it as literal text</text>
+  <text x="500" y="178" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">sanitize (DOMPurify) if HTML needed</text>
+  <text x="500" y="197" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">CSP blocks inline scripts</text>
+  <text x="340" y="238" text-anchor="middle" fill="#999" font-family="system-ui,sans-serif" font-size="12">defense in depth: escape output · sanitize raw HTML · Content-Security-Policy</text>
+</svg>

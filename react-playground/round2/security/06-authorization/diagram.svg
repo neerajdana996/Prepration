@@ -1,0 +1,16 @@
+<svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Authorization before and after</title>
+  <desc>Hiding a button client-side is bypassed by calling the API directly; server-side authorization rejects it.</desc>
+  <text x="340" y="26" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="13" font-weight="500">Authorization — never trust the client</text>
+  <rect x="30" y="44" width="300" height="132" rx="10" fill="#E24B4A"/>
+  <text x="180" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">BEFORE (client-only)</text>
+  <text x="180" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">UI hides the admin button</text>
+  <text x="180" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">API has no server check</text>
+  <text x="180" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">curl / direct call bypasses UI 🚨</text>
+  <rect x="350" y="44" width="300" height="132" rx="10" fill="#639922"/>
+  <text x="500" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">AFTER (server-enforced)</text>
+  <text x="500" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">server re-checks authz per request</text>
+  <text x="500" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">403 for non-admins</text>
+  <text x="500" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">UI hiding is UX only ✓</text>
+  <text x="340" y="200" text-anchor="middle" fill="#999" font-family="system-ui,sans-serif" font-size="12">the client is fully controllable — authorize on the server, every time</text>
+</svg>

@@ -1,0 +1,16 @@
+<svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Clickjacking before and after</title>
+  <desc>Your app framed with a transparent overlay is clickjacked, unless framing is refused via headers.</desc>
+  <text x="340" y="26" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="13" font-weight="500">Clickjacking — invisible iframe overlay</text>
+  <rect x="30" y="44" width="300" height="132" rx="10" fill="#E24B4A"/>
+  <text x="180" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">BEFORE (framable)</text>
+  <text x="180" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">evil.com iframes your app</text>
+  <text x="180" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">transparent iframe over a decoy</text>
+  <text x="180" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">click hits your app 🚨</text>
+  <rect x="350" y="44" width="300" height="132" rx="10" fill="#639922"/>
+  <text x="500" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">AFTER (headers)</text>
+  <text x="500" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">frame-ancestors 'none'</text>
+  <text x="500" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">/ X-Frame-Options: DENY</text>
+  <text x="500" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">browser refuses to frame you ✓</text>
+  <text x="340" y="200" text-anchor="middle" fill="#999" font-family="system-ui,sans-serif" font-size="12">no frame → nothing to overlay. Use headers, not JS frame-busting.</text>
+</svg>

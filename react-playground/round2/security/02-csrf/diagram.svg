@@ -1,0 +1,16 @@
+<svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>CSRF before and after</title>
+  <desc>A forged cross-site request succeeds when only the cookie is trusted, but is rejected with SameSite plus a CSRF token.</desc>
+  <text x="340" y="26" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="13" font-weight="500">CSRF — forged request from a logged-in browser</text>
+  <rect x="30" y="44" width="300" height="132" rx="10" fill="#E24B4A"/>
+  <text x="180" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">BEFORE (vulnerable)</text>
+  <text x="180" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">evil.com auto-submits a form</text>
+  <text x="180" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">victim's cookie sent automatically</text>
+  <text x="180" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">server trusts cookie → transfer 🚨</text>
+  <rect x="350" y="44" width="300" height="132" rx="10" fill="#639922"/>
+  <text x="500" y="70" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="500">AFTER (fixed)</text>
+  <text x="500" y="98" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">SameSite → cookie not sent cross-site</text>
+  <text x="500" y="120" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">CSRF token required &amp; verified</text>
+  <text x="500" y="142" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12">forged request rejected ✓</text>
+  <text x="340" y="200" text-anchor="middle" fill="#999" font-family="system-ui,sans-serif" font-size="12">fix: SameSite cookie + CSRF token + POST for state changes</text>
+</svg>
