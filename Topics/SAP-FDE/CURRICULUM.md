@@ -56,25 +56,34 @@
 *Unlocks:* RAG (M4) — retrieval + generation assembled into one system.
 *BUILD-FROM-SCRATCH (per user):* we hand-code the classics in plain Python **before** any library — Bag-of-Words, TF, IDF, TF-IDF, cosine similarity, then BM25, then a tiny brute-force vector search. You'll *feel* why embeddings beat keywords, then why ANN indexes beat brute force.
 
-- **3.1 Embeddings** ☐ — text → vector; semantic space; embedding models; dimensionality; same-model constraint (query & doc). *⚑ what a vector actually represents.*
-- **3.2 Similarity metrics** ☐ — cosine vs dot vs euclidean; normalization; what "close" means. *⚑ pick & justify a metric.*
+- **3.1 Embeddings** ☑ (meaning-space; learned vectors; real Gemini embeddings feed the hand-built cosine → semantic search beats keyword) — text → vector; semantic space; embedding models; dimensionality; same-model constraint (query & doc). *⚑ what a vector actually represents.*
+- **3.2 Similarity metrics** ☑ (cosine hand-coded; angle not magnitude; length-invariant. Lab: BoW→TF→IDF→TF-IDF→cosine→tiny search engine all built from scratch, `lab/concepts/m3_01..m3_03`) — cosine vs dot vs euclidean; normalization; what "close" means. *⚑ pick & justify a metric.*
 - **3.3 Vector stores & ANN indexes** ☐ — exact vs approximate; flat / IVF / HNSW; recall–latency–memory tradeoff; when a vector DB vs a column in your existing DB (→ HANA in M11). *⚑ index choice under scale.*
-- **3.4 Chunking** ☐ — fixed vs semantic vs structural; size/overlap tradeoffs; metadata attachment; the chunk = the unit of retrieval. *⚑ chunking is where most RAG quality is won or lost.*
-- **3.5 Lexical vs semantic retrieval** ☐ — BM25/keyword vs vector; strengths of each; sets up hybrid. *⚑ know vector search isn't always best.*
+- **3.4 Chunking** ☑ (unit of retrieval; size/overlap trade-off; fixed vs recursive vs semantic vs layout-aware; tail-loss bug; hand-coded splitter) — fixed vs semantic vs structural; size/overlap tradeoffs; metadata attachment; the chunk = the unit of retrieval. *⚑ chunking is where most RAG quality is won or lost.*
+- **3.5 Lexical vs semantic retrieval** ☑ — BM25 (saturation+length, hand-coded) vs embeddings; hybrid via RRF; BM25=exact tokens, embeddings=meaning. *⚑ know vector search isn't always best.*
+
+### 🔧 BONUS internals arc (forward-pass only, no training) — slot in as deep-dives, applied-first
+1. **BM25** — hand-code the better TF-IDF (still used in real hybrid search).
+2. **Word embeddings** — how words become vectors from context (word2vec intuition; tiny co-occurrence build).
+3. **Attention** — the actual mechanic: query·key → weights → weighted sum (numpy forward pass).
+4. **Transformer block** — attention + FFN + residual + layernorm; encoder vs decoder (decoder = next-token, M1 callback).
+5. **Toy embedding model** — mean-pool hidden states → a sentence vector; feed a query, get an embedding → plug into the hand-built `cosine_similarity`. Full circle.
+*(Skipped for interview scope: full LLM training/backprop. We build forward passes to understand, not to train.)*
 
 ## M4 — RAG, done properly (the flagship pattern)
 *Why here:* M3's pieces (embed, index, retrieve) now assemble into the enterprise workhorse.
 *Unlocks:* agents (M5) — RAG is a fixed pipeline; agents make retrieval one *tool* among many, chosen dynamically.
 
-- **4.1 The naive RAG pipeline** ☐ — ingest → chunk → embed → store → retrieve top-k → augment prompt → generate → cite. *⚑ draw it end-to-end from memory.*
-- **4.2 Retrieval quality** ☐ — recall vs precision; choosing k; context dilution; the "retrieved-but-ignored" problem. *⚑ diagnose bad answers = bad retrieval vs bad generation.*
-- **4.3 Reranking** ☐ — bi-encoder recall then cross-encoder precision; latency cost; top-N→top-k. *⚑ the standard quality upgrade.*
+- **4.1 The naive RAG pipeline** ☑ — ingest → chunk → embed → store → retrieve top-k → augment → generate → cite; grounded prompt (answer only from context / refuse / cite); built end-to-end in `lab/concepts/m4_01_rag.py`. *⚑ draw it end-to-end from memory.*
+- **4.2 Retrieval quality** ☑ (recall vs precision; k too small = miss, too big = dilute + lost-in-the-middle) — recall vs precision; choosing k; context dilution; the "retrieved-but-ignored" problem. *⚑ diagnose bad answers = bad retrieval vs bad generation.*
+- **4.3 Reranking** ☑ (bi-encoder=separate encode, precomputable, fast/coarse; cross-encoder=joint encode, per-pair, slow/accurate; 2-stage retrieve-N→rerank-k)
+- **4.5 Query transformation** ☑ (multi-query / RAG-Fusion via RRF; HyDE; decomposition — user derived it) · **Bonus:** semantic query cache + feedback loop (answer vs intention, TTL, threshold/negation traps) — bi-encoder recall then cross-encoder precision; latency cost; top-N→top-k. *⚑ the standard quality upgrade.*
 - **4.4 Hybrid search & fusion** ☐ — BM25 + vector; Reciprocal Rank Fusion; metadata/filtered search. *⚑ combine lexical + semantic and merge results.*
 - **4.5 Query transformation** ☐ — rewriting, multi-query, HyDE, decomposition of complex questions. *⚑ fix the question before blaming the index.*
 - **4.6 Grounding, citations & faithfulness** ☐ — force answers from retrieved context; inline citations; "I don't know"; hallucination reduction. *⚑ make it trustworthy for enterprise.*
 - **4.7 Advanced RAG** ☐ — parent-child / small-to-big, contextual retrieval, metadata filtering, multi-hop, graph/structured retrieval. *⚑ know upgrades beyond naive.*
 - **4.8 RAG vs long-context vs fine-tuning** ☐ — decision framework: freshness, cost, controllability, data volume. *⚑ choose the right tool, not the trendy one.*
-- **4.9 RAG failure modes & debugging** ☐ — bad chunks, wrong k, stale index, embedding mismatch, lost-in-middle, over-retrieval; a debugging playbook. *⚑ systematic triage — links to evals M6.*
+- **4.9 RAG failure modes & debugging** ☑ (bisect via printing retrieved chunks → retrieval bug vs generation bug; add regression eval) — bad chunks, wrong k, stale index, embedding mismatch, lost-in-middle, over-retrieval; a debugging playbook. *⚑ systematic triage — links to evals M6.*
 
 ## M5 — Agents & agentic workflows (acting, not just answering)
 *Why here:* M1.8 gave tool-calling; M4 made retrieval a pipeline. An agent = LLM + tools + a **loop** that decides which tool (incl. retrieval) to call next.
