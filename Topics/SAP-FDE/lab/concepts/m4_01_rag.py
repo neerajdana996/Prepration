@@ -11,9 +11,7 @@ Needs GOOGLE_API_KEY. Run:  uv run python concepts/m4_01_rag.py
 import os
 
 from dotenv import load_dotenv
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-
-from _llm import get_llm
+from _llm import get_embeddings, get_llm
 from m3_04_semantic_search import cosine
 
 load_dotenv()
@@ -52,9 +50,7 @@ def answer(question: str, embed, kb_vecs, llm) -> tuple[str, list[int]]:
 
 
 def main() -> None:
-    embed = GoogleGenerativeAIEmbeddings(
-        model=os.getenv("EMBED_MODEL", "models/text-embedding-004")
-    )
+    embed = get_embeddings()
     kb_vecs = [embed.embed_query(chunk) for chunk in KB]
     llm = get_llm()
 

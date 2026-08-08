@@ -13,8 +13,7 @@ Run:  uv run python concepts/m3_06_hybrid.py
 import os
 
 from dotenv import load_dotenv
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-
+from _llm import get_embeddings
 from m3_04_semantic_search import cosine
 from m3_05_bm25 import DOCS, rank as bm25_rank
 
@@ -22,9 +21,7 @@ load_dotenv()
 
 
 def semantic_rank(query: str, docs=DOCS):
-    embed = GoogleGenerativeAIEmbeddings(
-        model=os.getenv("EMBED_MODEL", "models/text-embedding-004")
-    )
+    embed = get_embeddings()
     doc_vecs = {name: embed.embed_query(text) for name, text in docs.items()}
     qv = embed.embed_query(query)
     scored = {name: cosine(qv, doc_vecs[name]) for name in docs}

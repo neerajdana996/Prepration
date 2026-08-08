@@ -12,7 +12,7 @@ import os
 
 from dotenv import load_dotenv
 
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from _llm import get_embeddings
 
 load_dotenv()
 
@@ -32,9 +32,7 @@ def cosine(a: list[float], b: list[float]) -> float:
 
 
 def main() -> None:
-    embed = GoogleGenerativeAIEmbeddings(
-        model=os.getenv("EMBED_MODEL", "models/text-embedding-004")
-    )
+    embed = get_embeddings()
     doc_vecs = {name: embed.embed_query(text) for name, text in DOCS.items()}
 
     query = "unpaid bill"  # NONE of these words appear in any doc
