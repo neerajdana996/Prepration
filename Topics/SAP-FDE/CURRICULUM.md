@@ -103,10 +103,10 @@
 *Why here:* M4/M5 produce nondeterministic output; you cannot ship, improve, or defend it without measurement.
 *Unlocks:* safety (M7) & MLOps (M8) — guardrail metrics and monitoring are evaluation applied continuously.
 
-- **6.1 Why eval is hard & central** ☐ — no single right answer; regression risk on every prompt/model change. *⚑ treat eval as the product, not an afterthought.*
+- **6.1 Why eval is hard & central** ☑ (non-deterministic + open-ended → no exact-match; measure quality over a set) · golden set + regression-test instinct drilled · judge calibration (vs human labels) built · all 4 RAGAS metrics learned (recall/precision/faithfulness/answer-relevancy) — no single right answer; regression risk on every prompt/model change. *⚑ treat eval as the product, not an afterthought.*
 - **6.2 The golden dataset** ☐ — building test cases from real usage; coverage; edge cases; keeping it fresh. *⚑ where ground truth comes from.*
-- **6.3 Offline metrics** ☐ — task metrics; RAG triad (context relevance, faithfulness/groundedness, answer relevance); retrieval metrics (recall@k, MRR, nDCG). *⚑ measure each stage separately.*
-- **6.4 LLM-as-judge** ☐ — rubric & pairwise; prompting the judge; biases (position, verbosity, self-preference) and mitigations; when to trust it. *⚑ scalable eval + its traps.*
+- **6.3 Offline metrics** ☑ (hit@k / recall@k hand-coded on a golden set; retrieval is objective; RAG triad = context-relevance / faithfulness / answer-relevance) — task metrics; RAG triad (context relevance, faithfulness/groundedness, answer relevance); retrieval metrics (recall@k, MRR, nDCG). *⚑ measure each stage separately.*
+- **6.4 LLM-as-judge** ☑ (faithfulness judge hand-built w/ Pydantic verdict; strict rubric catches hallucination; biases: verbosity/position/self-preference → calibrate vs human labels) — rubric & pairwise; prompting the judge; biases (position, verbosity, self-preference) and mitigations; when to trust it. *⚑ scalable eval + its traps.*
 - **6.5 Human eval & feedback** ☐ — thumbs, annotations, inter-rater agreement; closing the loop. *⚑ humans anchor the automated metrics.*
 - **6.6 Eval in CI (regression testing)** ☐ — prompts/models tested like code; gates on merge; canary evals. *⚑ eval as engineering discipline — links to M8.*
 - **6.7 Online eval & experimentation** ☐ — A/B, shadow, guardrail metrics, drift/quality decay detection. *⚑ measure in production, not just offline.*
