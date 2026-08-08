@@ -1,5 +1,6 @@
 """Shared helper: build the Gemini chat model from your .env.
-AIzaSyAzxxgwrREFEMNbvwWO6k3Wb5UbNZHBOnQ
+AQ.
+Ab8RN6JeOmJLUaiXpHn2O3MpzFs_C3JpjdzWlrtLJ9a1SDIJQA
 
 Every concept file imports get_llm() from here so the setup lives in one place.
 """
