@@ -1,8 +1,12 @@
-"""M5.6 - Multi-agent: a supervisor routes each query to a specialist agent.
+"""M5.6 - Multi-agent (clean reference): supervisor routes to 3 focused specialists.
 
-Supervisor = 1 LLM call that classifies the query -> which specialist.
-Each specialist = its own LLM call with a FOCUSED prompt (and, in real life, its
-own small toolset). Total = 2 calls per query. Focused beats do-everything.
+Design lessons baked in:
+  - 3 sensible agents (payment folded into billing; shipping/tracking/returns/
+    cancellations folded into orders) -> no redundant "agent soup" (M5.4).
+  - Route schema (Literal), the AGENTS registry, and dispatch stay IN SYNC.
+    A runtime assert catches drift so you can't add an agent the router can't pick.
+  - One DRY specialist() function instead of ten near-identical ones.
+  - For speed, set GEMINI_MODEL=gemini-2.5-flash-lite in .env.
 
 Needs GOOGLE_API_KEY. Run:  uv run python agents/m5_06_multi_agent.py
 """
@@ -12,6 +16,24 @@ from pydantic import BaseModel
 
 from _llm import get_llm
 
+# The registry: what each specialist handles. Add an agent = add ONE line here...
+AGENTS = {
+    "billing": "invoices, charges, double-billing, refunds, payments, payment methods",
+    "tech": "app crashes, errors, uploads, logins, technical problems",
+    "orders": "order status, tracking, shipping, cancellations, returns",
+}
+
+
+class Route(BaseModel):
+    specialist: Literal["billing", "tech", "orders"]  # ...and keep THIS in sync
+    reason: str
+
+
+# Guard: schema and registry must agree, or new agents are unreachable.
+assert set(Route.model_fields["specialist"].annotation.__args__) == set(AGENTS), (
+    "Route Literal and AGENTS registry are out of sync!"
+)
+
 
 def _text(content) -> str:
     if isinstance(content, str):
@@ -19,43 +41,34 @@ def _text(content) -> str:
     return " ".join(b.get("text", "") for b in content if isinstance(b, dict)).strip()
 
 
-class Route(BaseModel):
-    specialist: Literal["billing", "tech"]
-
-
-def supervisor(query: str) -> str:
-    """One focused decision: which specialist should handle this?"""
-    r = get_llm().with_structured_output(Route).invoke(
-        f"Route this customer query to the right specialist.\nQuery: {query}"
+def supervisor(query: str) -> Route:
+    """One decision: which specialist, and why (explainable routing)."""
+    catalog = "\n".join(f"- {name}: {desc}" for name, desc in AGENTS.items())
+    return get_llm().with_structured_output(Route).invoke(
+        f"Pick the best specialist for the query based on their capabilities.\n"
+        f"Specialists:\n{catalog}\n\nQuery: {query}"
     )
-    return r.specialist
 
 
-def billing_agent(query: str) -> str:
+def specialist(name: str, query: str) -> str:
+    """One DRY specialist: a focused prompt built from the registry."""
     return _text(get_llm().invoke(
-        f"You are a BILLING specialist. Answer in one short sentence.\nQuery: {query}"
+        f"You are the {name.upper()} specialist ({AGENTS[name]}). "
+        f"Answer in one short sentence.\nQuery: {query}"
     ).content)
-
-
-def tech_agent(query: str) -> str:
-    return _text(get_llm().invoke(
-        f"You are a TECHNICAL SUPPORT specialist. Answer in one short sentence.\nQuery: {query}"
-    ).content)
-
-
-SPECIALISTS = {"billing": billing_agent, "tech": tech_agent}
 
 
 def run(query: str) -> str:
-    who = supervisor(query)
-    print(f"[supervisor] routed to: {who}")
-    return SPECIALISTS[who](query)
+    route = supervisor(query)
+    print(f"[supervisor] -> {route.specialist}  ({route.reason})")
+    return specialist(route.specialist, query)
 
 
 def main() -> None:
     for q in [
-        "Why was I charged twice on my last invoice?",
-        "The app crashes every time I upload a PDF.",
+        "Why was I charged twice on my last invoice?",  # billing
+        "The app crashes when I upload a PDF.",          # tech
+        "Where is my package, it hasn't shipped yet?",   # orders
     ]:
         print("Q:", q)
         print("A:", run(q), "\n")
