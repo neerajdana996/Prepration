@@ -8,6 +8,16 @@
 
 ---
 
+## ⚖️ HONEST GAP REGISTER (updated live — no loose "done" claims)
+Completion is tracked by *specific sub-topic*, not vibes. "Done" = taught + drilled + (where relevant) coded.
+- **M1 Engine ~95%** — DONE incl. model selection (cheapest-that-passes-evals, tiering, hosted-vs-self-host, data residency). Remaining: multimodal (name-level).
+- **M3 Retrieval ~95%** — DONE incl. ANN indexes (IVF buckets, HNSW graph; approximate vs exact; recall/latency/memory; B-tree contrast). Parent-child/contextual covered in M4.
+- **M4 RAG ~95%** — DONE incl. RAG-vs-long-context-vs-fine-tune decision + advanced RAG (parent-child, contextual retrieval, multi-hop concretely). Remaining polish: GraphRAG, self/corrective-RAG (name-level).
+- **M6 Evals ~95%** — DONE incl. eval-in-CI gate (block regressions) + online eval (A/B, feedback, drift). Remaining polish: build a CI harness file.
+- **M5 Agents ~95%** — DONE: loop, ReAct (native+text), workflow-vs-agent, multi-agent (supervisor + agents-as-tools + sync-guard), robustness (errors-as-observations, step cap), HITL approval gate, agent testing (trajectory+outcome+pass-rate), long-term memory (RAG over history), planning/handoff/tool-design (concepts), LangGraph (create_react_agent). Remaining polish: budgets/timeouts, dedicated tool-design build.
+- **M2 Prompting** — folded into M1/M6; CoT + output-robustness owed inline.
+- **M7 Safety · M8 Production · M9 System Design · M10 Delivery · M11 SAP · M12 Behavioral = 0%** (high interview weight — biggest risk).
+
 ## THE SPINE (one sentence per module — memorize this chain)
 1. **Engine** — an LLM is a next-token predictor; tokens govern cost, latency, context. →
 2. **Prompting** — you control the engine only through the text you put in the window. →
@@ -191,6 +201,17 @@
 - "full lifecycle: design → deploy → operate" → M8, M9, M10 ✔
 - "ambiguity, customer stakeholders, communicate trade-offs" → M10, M12 ✔
 - "SAP AI technologies (advantage)" → M11 ✔
+
+## 🏁 CAPSTONE — production case study (portfolio + R2 design artifact)
+Build ONE realistic enterprise AI app end-to-end, combining everything:
+an SAP-flavored **Operations/Support Assistant** — **RAG** over a company's docs
+(invoices, orders, policies) + a **multi-agent** system (billing / orders / tech
+specialists + supervisor) + tools into enterprise systems + **evals** (RAGAS +
+judge, tuned on a golden set) + **guardrails / HITL** for high-impact actions +
+**observability + cost** tracking. Serves 3 interview purposes: portfolio "I built
+X" story, the R2 solution-design artifact, and behavioral STAR material.
+Built as the FINALE — needs M7 (safety), M8 (production), M9 (design) first;
+we sketch its architecture during M9 and build it in `lab/capstone/`.
 
 ## Drill protocol (per lesson)
 1. I teach it foundation-first with tiny concrete numbers. 2. You drive a small problem. 3. Rapid-fire quiz. 4. Mark ☑ and link forward. Weekly: a mock round using drilled modules.
