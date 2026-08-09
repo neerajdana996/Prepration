@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="270" viewBox="0 0 680 270" font-family="system-ui, sans-serif" role="img" aria-label="Insecure output handling: LLM output is untrusted input to downstream sinks">
+  <rect x="0" y="0" width="680" height="270" fill="#ffffff"/>
+  <text x="24" y="30" font-size="16" font-weight="700" fill="#1a1a1a">Insecure output handling: the model's output is UNTRUSTED input</text>
+
+  <rect x="24" y="44" width="632" height="46" rx="8" fill="#EEEDE8" stroke="#B4B2A9"/>
+  <text x="40" y="66" font-size="12" fill="#333">ROOT CAUSE: a prompt (or an indirect injection in retrieved context) steers the model's output.</text>
+  <text x="40" y="82" font-size="12" fill="#333">Feeding that RAW output into a sink that EXECUTES or RENDERS it revives the classic web bugs.</text>
+
+  <!-- flow: model output -> sink -> classic bug -->
+  <rect x="24" y="104" width="150" height="40" rx="8" fill="#FAECD9" stroke="#D89B4A"/>
+  <text x="99" y="122" font-size="12" font-weight="700" fill="#5A3A12" text-anchor="middle">LLM output</text>
+  <text x="99" y="137" font-size="10" fill="#5A3A12" text-anchor="middle">(untrusted)</text>
+
+  <text x="184" y="128" font-size="16" fill="#555">&#8594;</text>
+
+  <rect x="206" y="104" width="180" height="40" rx="8" fill="#FAE4DC" stroke="#D85A30"/>
+  <text x="296" y="122" font-size="12" font-weight="700" fill="#5A2413" text-anchor="middle">sink runs / renders it</text>
+  <text x="296" y="137" font-size="10" fill="#5A2413" text-anchor="middle">eval · SQL · innerHTML · shell</text>
+
+  <text x="396" y="128" font-size="16" fill="#555">&#8594;</text>
+
+  <rect x="418" y="104" width="238" height="40" rx="8" fill="#F6D9D6" stroke="#C0392B"/>
+  <text x="537" y="122" font-size="12" font-weight="700" fill="#7A1F16" text-anchor="middle">classic bug is back</text>
+  <text x="537" y="137" font-size="10" fill="#7A1F16" text-anchor="middle">RCE · SQL injection · XSS · path traversal</text>
+
+  <!-- mitigations -->
+  <rect x="24" y="158" width="632" height="72" rx="8" fill="#E4F0E4" stroke="#4A8A4A"/>
+  <text x="40" y="178" font-size="13" font-weight="700" fill="#1E4D1E">DEFENSE: zero-trust the output</text>
+  <text x="40" y="196" font-size="12" fill="#1E4D1E">never eval/exec/shell it &#183; parameterize queries &#183; schema-validate + allow-list</text>
+  <text x="40" y="212" font-size="12" fill="#1E4D1E">encode for the sink (textContent, not innerHTML) &#183; least-privilege + sandbox + audit</text>
+  <text x="40" y="226" font-size="11" fill="#2E5E2E">Blast radius = what the SINK can do, not what the model "meant".</text>
+
+  <text x="24" y="256" font-size="12" fill="#555">OWASP LLM10:2026 Improper Output Handling (was LLM05:2025) — treat the model like any untrusted user.</text>
+</svg>

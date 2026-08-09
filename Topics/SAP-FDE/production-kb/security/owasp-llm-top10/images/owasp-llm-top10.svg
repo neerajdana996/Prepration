@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="560" viewBox="0 0 720 560" font-family="system-ui, sans-serif" role="img" aria-label="OWASP Top 10 for LLM Applications 2025">
+  <rect x="0" y="0" width="720" height="560" fill="#ffffff"/>
+  <text x="24" y="32" font-size="18" font-weight="700" fill="#1a1a1a">OWASP Top 10 for LLM Applications (2025)</text>
+  <text x="24" y="52" font-size="12" fill="#666">The standard checklist for LLM/GenAI security risk — source: genai.owasp.org</text>
+
+  <!-- header row -->
+  <rect x="24" y="64" width="672" height="28" rx="6" fill="#1a1a1a"/>
+  <text x="36" y="83" font-size="12" font-weight="700" fill="#ffffff">#</text>
+  <text x="86" y="83" font-size="12" font-weight="700" fill="#ffffff">Risk</text>
+  <text x="330" y="83" font-size="12" font-weight="700" fill="#ffffff">One-line defense</text>
+
+  <!-- rows: y start 92, each 44 tall -->
+  <!-- 1 -->
+  <rect x="24" y="92" width="672" height="44" fill="#FAE4DC" stroke="#D85A30"/>
+  <text x="36" y="119" font-size="13" font-weight="700" fill="#5A2413">01</text>
+  <text x="86" y="113" font-size="12.5" font-weight="700" fill="#5A2413">Prompt Injection</text>
+  <text x="86" y="129" font-size="10.5" fill="#7a3a20">untrusted text overrides instructions</text>
+  <text x="330" y="119" font-size="11" fill="#333">treat all input/data as untrusted; least-privilege tools</text>
+
+  <!-- 2 -->
+  <rect x="24" y="136" width="672" height="44" fill="#FAECD9" stroke="#D89B4A"/>
+  <text x="36" y="163" font-size="13" font-weight="700" fill="#5A3A12">02</text>
+  <text x="86" y="157" font-size="12.5" font-weight="700" fill="#5A3A12">Sensitive Information Disclosure</text>
+  <text x="86" y="173" font-size="10.5" fill="#7a5a24">leaks PII / secrets / proprietary data</text>
+  <text x="330" y="163" font-size="11" fill="#333">redact input + output; tenant-scoped retrieval</text>
+
+  <!-- 3 -->
+  <rect x="24" y="180" width="672" height="44" fill="#EEF3E8" stroke="#8AA55C"/>
+  <text x="36" y="207" font-size="13" font-weight="700" fill="#3c4a24">03</text>
+  <text x="86" y="201" font-size="12.5" font-weight="700" fill="#3c4a24">Supply Chain</text>
+  <text x="86" y="217" font-size="10.5" fill="#546a34">compromised models / datasets / packages</text>
+  <text x="330" y="207" font-size="11" fill="#333">vet + pin provenance; SBOM; safetensors, no pickle</text>
+
+  <!-- 4 -->
+  <rect x="24" y="224" width="672" height="44" fill="#EAF0F4" stroke="#5C86A5"/>
+  <text x="36" y="251" font-size="13" font-weight="700" fill="#24404a">04</text>
+  <text x="86" y="245" font-size="12.5" font-weight="700" fill="#24404a">Data and Model Poisoning</text>
+  <text x="86" y="261" font-size="10.5" fill="#345a6a">malicious training / fine-tune / embedding data</text>
+  <text x="330" y="251" font-size="11" fill="#333">curate + validate data; provenance; eval for backdoors</text>
+
+  <!-- 5 -->
+  <rect x="24" y="268" width="672" height="44" fill="#FAE4DC" stroke="#D85A30"/>
+  <text x="36" y="295" font-size="13" font-weight="700" fill="#5A2413">05</text>
+  <text x="86" y="289" font-size="12.5" font-weight="700" fill="#5A2413">Improper Output Handling</text>
+  <text x="86" y="305" font-size="10.5" fill="#7a3a20">blindly trusted output -&gt; XSS / RCE / SQLi</text>
+  <text x="330" y="295" font-size="11" fill="#333">treat output as untrusted; encode, parameterize, sandbox</text>
+
+  <!-- 6 -->
+  <rect x="24" y="312" width="672" height="44" fill="#FAECD9" stroke="#D89B4A"/>
+  <text x="36" y="339" font-size="13" font-weight="700" fill="#5A3A12">06</text>
+  <text x="86" y="333" font-size="12.5" font-weight="700" fill="#5A3A12">Excessive Agency</text>
+  <text x="86" y="349" font-size="10.5" fill="#7a5a24">too many tools / scope / autonomy</text>
+  <text x="330" y="339" font-size="11" fill="#333">least-privilege tools; human approval on high impact</text>
+
+  <!-- 7 -->
+  <rect x="24" y="356" width="672" height="44" fill="#EEF3E8" stroke="#8AA55C"/>
+  <text x="36" y="383" font-size="13" font-weight="700" fill="#3c4a24">07</text>
+  <text x="86" y="377" font-size="12.5" font-weight="700" fill="#3c4a24">System Prompt Leakage</text>
+  <text x="86" y="393" font-size="10.5" fill="#546a34">rules / secrets extracted from system prompt</text>
+  <text x="330" y="383" font-size="11" fill="#333">no secrets in prompt; enforce authz in code</text>
+
+  <!-- 8 -->
+  <rect x="24" y="400" width="672" height="44" fill="#EAF0F4" stroke="#5C86A5"/>
+  <text x="36" y="427" font-size="13" font-weight="700" fill="#24404a">08</text>
+  <text x="86" y="421" font-size="12.5" font-weight="700" fill="#24404a">Vector and Embedding Weaknesses</text>
+  <text x="86" y="437" font-size="10.5" fill="#345a6a">RAG leakage / inversion / poisoned embeddings</text>
+  <text x="330" y="427" font-size="11" fill="#333">tenant-isolate store; access control; validate content</text>
+
+  <!-- 9 -->
+  <rect x="24" y="444" width="672" height="44" fill="#F3ECF4" stroke="#8A5CA5"/>
+  <text x="36" y="471" font-size="13" font-weight="700" fill="#40244a">09</text>
+  <text x="86" y="465" font-size="12.5" font-weight="700" fill="#40244a">Misinformation</text>
+  <text x="86" y="481" font-size="10.5" fill="#5a346a">confident hallucinations drive bad decisions</text>
+  <text x="330" y="471" font-size="11" fill="#333">ground + cite; consistency checks; human review</text>
+
+  <!-- 10 -->
+  <rect x="24" y="488" width="672" height="44" fill="#F4ECEA" stroke="#A5745C"/>
+  <text x="36" y="515" font-size="13" font-weight="700" fill="#4a2e24">10</text>
+  <text x="86" y="509" font-size="12.5" font-weight="700" fill="#4a2e24">Unbounded Consumption</text>
+  <text x="86" y="525" font-size="10.5" fill="#6a4534">token floods / wallet-DoS / model extraction</text>
+  <text x="330" y="515" font-size="11" fill="#333">rate limits + quotas; token/cost budgets; timeouts</text>
+
+  <text x="24" y="550" font-size="11" fill="#555">Unifying lesson: you can't make the model un-foolable — harden the surrounding architecture so the blast radius stays small.</text>
+</svg>

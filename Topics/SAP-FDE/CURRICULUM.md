@@ -16,7 +16,9 @@ Completion is tracked by *specific sub-topic*, not vibes. "Done" = taught + dril
 - **M6 Evals ~95%** — DONE incl. eval-in-CI gate (block regressions) + online eval (A/B, feedback, drift). Remaining polish: build a CI harness file.
 - **M5 Agents ~95%** — DONE: loop, ReAct (native+text), workflow-vs-agent, multi-agent (supervisor + agents-as-tools + sync-guard), robustness (errors-as-observations, step cap), HITL approval gate, agent testing (trajectory+outcome+pass-rate), long-term memory (RAG over history), planning/handoff/tool-design (concepts), LangGraph (create_react_agent). Remaining polish: budgets/timeouts, dedicated tool-design build.
 - **M2 Prompting** — folded into M1/M6; CoT + output-robustness owed inline.
-- **M7 Safety · M8 Production · M9 System Design · M10 Delivery · M11 SAP · M12 Behavioral = 0%** (high interview weight — biggest risk).
+- **M8 Production ~85%** — DONE: prod anatomy, LLM gateway, resilience (timeout/retry+jitter/circuit-breaker/fallback/graceful-degradation + UX reconciliation), caching (exact/semantic/prompt), observability (traces/spans), deployment & versioning (prompt/model/index artifacts, canary/shadow/rollback, gen-model vs embedder re-index blast-radius). Remaining: data/ingestion pipelines, fine-tuning ops (awareness), infra basics.
+- **M7 Safety ~70%** — DONE: prompt injection (direct/indirect) taught live + defense-in-depth + data protection (PII/tenant isolation/residency). Full `production-kb/security/` pillar built (7 topics: injection, jailbreaks, sensitive-info-disclosure, excessive-agency, insecure-output-handling, pii-redaction, owasp-llm-top10 — each explanation + runnable example/prevention + SVG). Remaining live: EU AI Act / responsible-AI compliance framing.
+- **M9 System Design · M10 Delivery · M11 SAP · M12 Behavioral = 0%** (high interview weight — biggest risk).
 
 ## THE SPINE (one sentence per module — memorize this chain)
 1. **Engine** — an LLM is a next-token predictor; tokens govern cost, latency, context. →
