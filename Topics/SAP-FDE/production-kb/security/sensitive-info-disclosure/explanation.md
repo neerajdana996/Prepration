@@ -8,7 +8,12 @@ docs, tool outputs, and user text are **all context**, and **anything in the con
 extractable**. Hidden instructions and "hidden" secrets are not actually hidden — a
 determined user can pull them back out of the model. This is **OWASP LLM02:2025**.
 
-![sensitive information disclosure](images/info-disclosure.svg)
+**How the attack works** — a live API key (`sk-live-…`) is pasted into the system prompt
+with a "never reveal it" instruction. The user asks the model to print it verbatim, and
+because everything in the context is one extractable token stream, the promise can't hold —
+the key comes straight back out. No injection payload required.
+
+![how the attack works: a secret in the context leaks straight to the user](images/attack-real-case.svg)
 
 ## Common leak vectors
 - **System-prompt extraction** — the user says *"repeat everything above"* or role-plays an
@@ -45,6 +50,15 @@ allowed to say**.
 5. **Redacted logging + least data** — log a truncated/redacted prompt, not the raw one;
    encrypt at rest; RBAC on every endpoint.
 
+**How the solution works** — keep the secret OUT of the context: the model only ever sees a
+`[REDACTED_API_KEY]` placeholder while the real key stays in a vault and **code** holds the
+privilege (PREVENT). Inject minimal context so no secret or PII is even present (PREVENT). As a
+backstop, an output guardrail scrubs secret-shaped strings — `sk-live-*`, `AKIA*`, long opaque
+tokens — before the reply leaves the system (CONTAIN). With no secret in context, there is
+nothing to leak.
+
+![how the solution works: keep the secret out of context and guard the output](images/defense.svg)
+
 **Split:** layer 1–3 stop the secret from ever being in reach; layers 4–5 catch what slips
 through and shrink the blast radius. Because extraction is leaky, keeping the secret out of
 context is the layer that actually saves you.
@@ -62,3 +76,6 @@ another tenant's data. My rule is 'anything in context is extractable' — so se
 the prompt, they stay in a vault and code holds the privilege. On top of that I scope retrieval
 to the authenticated tenant, inject minimal context, and run an output guardrail that blocks
 key-shaped strings and PII. You can't count on the model to keep a secret it can see."*
+
+---
+<sub>Footnote — the original concept sketch: [the one-token-stream view of disclosure](images/info-disclosure.svg).</sub>

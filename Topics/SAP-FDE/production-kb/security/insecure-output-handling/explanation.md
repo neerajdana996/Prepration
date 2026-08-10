@@ -9,7 +9,13 @@ retrieved doc) can steer the model into emitting `__import__('os').system('rm -r
 executes or renders it, you get the *classic* web bugs back — RCE, SQL injection, XSS — just
 with the LLM as the injection vector.
 
-![insecure output handling](images/insecure-output.svg)
+**How the attack works**
+
+![insecure output handling attack](images/attack-real-case.svg)
+
+**How the solution works**
+
+![insecure output handling defense](images/defense.svg)
 
 ## Why it's dangerous
 This is **OWASP LLM10:2026 (Improper Output Handling)** — formerly LLM05:2025 / LLM02 in the
@@ -51,3 +57,7 @@ The model's output is untrusted user-influenced input, so I never `eval` it, nev
 into SQL, and never `innerHTML` it. I validate against a schema or allow-list, parameterize
 queries, encode for the sink, and run the sink least-privilege — because the damage is set by what
 the sink can do, not by the model."*
+
+---
+
+<sub>Concept diagram (overview): ![insecure output handling](images/insecure-output.svg)</sub>

@@ -7,7 +7,22 @@ it's the one that **never contains** data the model doesn't need. This is **data
 send the least context required, replace identifiers with placeholders, and keep the map back to the
 real values under your control.
 
-![PII redaction pipeline](images/pii-redaction.svg)
+**How the leak happens**
+
+The vulnerable summarizer (`example.py`) pastes a raw customer record straight into the prompt and
+into the logs — so the same PII crosses your trust boundary **twice**: once to the model provider,
+once to your plaintext logs. No attacker required; the app leaks by design.
+
+![The leak path: raw PII crosses the trust boundary to the model provider (A) and to the logs (B)](images/attack-real-case.svg)
+
+**How the solution works**
+
+`prevention.py` runs `redact()` as a hard dependency in the path — masking email/phone/card **before**
+the prompt is built (PREVENT) and again **before** anything is logged (PREVENT). Role-scoped retrieval
+and data residency (CONTAIN) limit what can be pulled and where it lives. The model and the logs only
+ever see masked text.
+
+![Defense in depth: redact before the model and before logs, plus role-scoped retrieval and data residency](images/defense.svg)
 
 ## Why it matters
 - **The prompt is not private.** Once PII is in a prompt it can be stored in provider logs, surface
@@ -62,3 +77,7 @@ final answer. Same guard runs before anything is logged, because traces are regu
 redaction isn't the whole story — I pair it with role-scoped retrieval so a user only pulls data
 they're entitled to, and keep EU data in-region. Prompt instructions like 'don't repeat the SSN' are
 a UX nicety, never the control."*
+
+---
+
+<sub>Concept overview (original schematic): ![PII redaction pipeline](images/pii-redaction.svg)</sub>

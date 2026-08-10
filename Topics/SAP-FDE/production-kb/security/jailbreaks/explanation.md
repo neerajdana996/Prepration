@@ -7,8 +7,6 @@ break code; they exploit the model's own language comprehension and its RLHF-tra
 helpful, which sits in permanent tension with its drive to refuse. OWASP folds this under
 **LLM01: Prompt Injection** (2025), and NIST AI 100-2 calls it a subclass of prompt injection.
 
-![jailbreak techniques and defenses](images/jailbreak.svg)
-
 ## Jailbreak vs prompt injection (say this in the interview)
 They overlap and the strings often look identical, but they attack **different layers**:
 - **Prompt injection** subverts **your application's instructions** — "ignore your system prompt,
@@ -42,6 +40,15 @@ between "policy" and "user text" — it's all one token stream. Even frontier mo
 after their best defenses (reported attack success rates run 50–84% given enough attempts). So you
 **contain**, you don't perfectly block.
 
+## How the attack works
+The user crafts a **roleplay / "DAN" persona** prompt and sends it straight to the assistant. The
+model was told to guard a secret (`ORCHID-42`) and refuse if asked — but the persona splits its
+identity and its RLHF-trained helpfulness overrides the refusal. It answers "in character" and leaks
+the secret. Unlike prompt injection, the attack is the **user's own prompt** and it subverts the
+model's **safety alignment**, not your app's instructions.
+
+![jailbreak attack — where the safety refusal is bypassed](images/attack-real-case.svg)
+
 ## Defense in depth
 1. **Hardened safety system prompt** — an explicit, non-negotiable policy: refuse persona/"ignore
    your rules" requests, never reveal secrets, stay in role.
@@ -58,6 +65,16 @@ after their best defenses (reported attack success rates run 50–84% given enou
 **Split:** layer 1 states the policy; layers 2–4 catch bypasses; layer 5 limits the blast radius.
 Since prevention is leaky, containment matters most.
 
+## How the solution works
+Same prompt, wrapped in layers placed where they act. An **input guardrail** decode-and-rescreens
+obfuscated text (base64/ROT13) and flags persona markers before the model sees it (**PREVENT**); a
+**hardened safety prompt** makes the no-persona / never-reveal policy non-negotiable so the LLM
+refuses (**PREVENT**); and an **output guardrail** treats the reply as untrusted and blocks any
+response containing `ORCHID-42` (**CONTAIN**) — so even a novel jailbreak that slips the first two
+leaks nothing.
+
+![jailbreak defense — where each guardrail prevents or contains](images/defense.svg)
+
 ## Files
 - `example.py` — the **vulnerable** version: a roleplay/"DAN" persona coaxes the assistant past its
   refusal and leaks a secret code it was told to protect.
@@ -70,3 +87,6 @@ versus prompt injection. Since even frontier models can be jailbroken, I don't r
 refusals alone: I add a hardened safety prompt, an independent guardrail classifier that
 decode-and-rescreens obfuscated input, and an output filter — then keep tools least-privilege and
 gate irreversible actions behind a human, so even a jailbreak that gets through can't do real harm."*
+
+---
+<sub>Footnote — concept overview of techniques and defenses: ![jailbreak techniques and defenses](images/jailbreak.svg)</sub>
