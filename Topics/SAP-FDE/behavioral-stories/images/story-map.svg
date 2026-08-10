@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="380" viewBox="0 0 700 380" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" role="img" aria-label="Behavioral story bank overview grouped by source">
+  <rect x="0" y="0" width="700" height="380" fill="#ffffff"/>
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#0f172a">Behavioral story bank — 10 stories at a glance</text>
+  <text x="30" y="54" font-size="12" fill="#475569">In the room: map the question to the closest story. Each covers several signals.</text>
+
+  <!-- Atlassian column -->
+  <text x="40" y="86" font-size="13" font-weight="700" fill="#3B82C4">ATLASSIAN</text>
+  <g fill="#E3F0FB" stroke="#3B82C4">
+    <rect x="30" y="94" width="210" height="34" rx="8"/><rect x="30" y="134" width="210" height="34" rx="8"/>
+    <rect x="30" y="174" width="210" height="34" rx="8"/><rect x="30" y="214" width="210" height="34" rx="8"/>
+    <rect x="30" y="254" width="210" height="34" rx="8"/>
+  </g>
+  <g font-size="11.5" fill="#1E4E79">
+    <text x="42" y="116">01 · Checkout conversion — ownership</text>
+    <text x="42" y="156">02 · ECC→BAC — cross-team influence</text>
+    <text x="42" y="196">03 · DC→Cloud — ambiguity</text>
+    <text x="42" y="236">04 · Cypress→Playwright — data quality</text>
+    <text x="42" y="276">05 · Incident command — pressure</text>
+  </g>
+
+  <!-- ServiceNow column -->
+  <text x="260" y="86" font-size="13" font-weight="700" fill="#7C6FE0">SERVICENOW</text>
+  <g fill="#EDE7FB" stroke="#7C6FE0">
+    <rect x="250" y="94" width="210" height="34" rx="8"/><rect x="250" y="134" width="210" height="34" rx="8"/>
+    <rect x="250" y="174" width="210" height="34" rx="8"/>
+  </g>
+  <g font-size="11.5" fill="#3C3489">
+    <text x="262" y="116">06 · GenAI app-from-prompt — AI/tech lead</text>
+    <text x="262" y="156">07 · Latency optimization — tech depth</text>
+    <text x="262" y="196">08 · Mentoring &amp; LLM standards</text>
+  </g>
+
+  <!-- Cross-cutting column -->
+  <text x="480" y="86" font-size="13" font-weight="700" fill="#1D9E75">CROSS-CUTTING</text>
+  <g fill="#E4F6EE" stroke="#1D9E75">
+    <rect x="470" y="94" width="210" height="34" rx="8"/><rect x="470" y="134" width="210" height="34" rx="8"/>
+  </g>
+  <g font-size="11.5" fill="#0F5C46">
+    <text x="482" y="116">09 · A bet that underperformed</text>
+    <text x="482" y="156">10 · The climb into Staff / GenAI</text>
+  </g>
+
+  <text x="30" y="330" font-size="12" fill="#334155">Sources: Atlassian (blue) · ServiceNow (purple) · career/cross-cutting (green).</text>
+  <text x="30" y="352" font-size="11" fill="#DC4A34">All grounded in your real resume bullets; [bracketed] numbers are yours to fill in — never fabricate.</text>
+</svg>
