@@ -47,7 +47,7 @@
 
   <!-- DEFENSE 3 -->
   <rect x="70" y="508" width="380" height="56" rx="10" fill="#E4F6EE" stroke="#1D9E75"/>
-  <text x="260" y="530" font-size="13" font-weight="700" fill="#0F5C46" text-anchor="middle">DEFENSE 3 · role-scoped retrieval + data residency  (CONTAIN)</text>
+  <text x="260" y="530" font-size="13" font-weight="700" fill="#0F5C46" text-anchor="middle">DEFENSE 3 · role-scoped retrieval  (CONTAIN)</text>
   <text x="260" y="548" font-size="11" fill="#12735A" text-anchor="middle">user pulls only data they're entitled to · EU personal data</text>
   <text x="260" y="561" font-size="11" fill="#12735A" text-anchor="middle">stays on EU-region infrastructure</text>
   <line x1="260" y1="564" x2="260" y2="586" stroke="#1D9E75" stroke-width="2" marker-end="url(#gr)"/>
@@ -57,5 +57,5 @@
   <text x="260" y="610" font-size="13" font-weight="700" fill="#0F5C46" text-anchor="middle">Result: model + logs see only masked text</text>
   <text x="260" y="628" font-size="11" fill="#334155" text-anchor="middle">no raw PII crosses either boundary — both leaks closed</text>
 
-  <text x="30" y="672" font-size="12" fill="#334155">Layers 1&#8211;2 PREVENT (redact before model AND before logs); layer 3 CONTAINS by limiting what can be pulled and where it lives.</text>
+  <text x="30" y="672" font-size="12" fill="#334155">PREVENT: redact before the model and before logs. CONTAIN: least-privilege retrieval, EU data residency.</text>
 </svg>
